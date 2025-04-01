@@ -1,0 +1,9 @@
+# 应用服务 WEB 访问端口
+server:
+  port: 8085
+
+dingtalk:
+  app:
+    client-id: dingdhxefajlldksi7tp
+    client-secret: RUo7LYA9FVfzk3NINLVaYimQB50ziAei6UHvK-EUqU6txuG4EWt3a_uO1DVYydfU
+

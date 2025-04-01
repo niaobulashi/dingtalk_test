@@ -1,0 +1,68 @@
+openapi: 3.0.1
+info:
+  title: 钉钉自定义能力示例
+  description: 一个钉钉AI助理自定义能力开发的示例
+  version: v1.0.0
+servers:
+  - url: https://api.example.com
+x-dingtalk-protocol: stream
+paths:
+  /v1/demo-action:
+    get:
+      summary: 自定义能力示例
+      description: 使用AI卡片流式回复一段markdown文本
+      operationId: streamMarkdownDemo
+      # 关闭官方卡片，仅展示AI技能助手发送的卡片
+      x-dingtalk-display-result: disabled
+      parameters:
+        - name: input
+          in: query
+          description: 用户与AI助理对话的原始信息
+          schema:
+            type: object
+            x-dingtalk-context:
+              property: currentInput
+              format: raw
+        - name: token
+          in: query
+          description: 会话凭证，可以用于调用API发送 AI 卡片
+          required: true
+          schema:
+            type: string
+            x-dingtalk-context:
+              property: currentConversation
+              format: conversationToken
+        - name: sender
+          in: query
+          description: 请求人
+          required: true
+          schema:
+            type: string
+            x-dingtalk-context:
+              property: currentUser
+              format: userId
+        - name: corpId
+          in: query
+          description: 组织信息
+          required: true
+          schema:
+            type: string
+            x-dingtalk-context:
+              property: currentOrg
+              format: corpId
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SimpleResponse'
+
+components:
+  schemas:
+    SimpleResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: "因为设置了 x-dingtalk-display-result: disabled，所以这里的内容是什么没有影响，实现中将固定为 OK"
